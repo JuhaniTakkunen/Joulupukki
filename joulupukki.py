@@ -79,7 +79,7 @@ def laskeEtaisyys(kaupunki1, kaupunki2):
     return etaisyys
 
 def laskeMatka(reitti):
-	# Laskeen annettujen kaupunkien läpi kuljetun reitin annetussa järjestyksessä.
+	# Laskeen kaupunkien läpi kuljetun reitin annetussa järjestyksessä.
 	# - reitin tulee olla taulukko/tuple, jonka alkioina on Kaupunkeja.
 	# - palautetaan kokonaismatka [km]
     kokonaismatka = 0
