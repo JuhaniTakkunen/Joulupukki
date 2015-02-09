@@ -3,12 +3,13 @@ import math
 from itertools import permutations
 
 # joulupukki.py on harjoitustyö, jonka avulla opettelin Python 3:a.
-# Tehtävänä on laskea lyhin reitti joulupukille 10 maailman suurimman kaupungin läpi, lähtien
-# Korvatunturilta. Ongelma perustuu Tieteellinen laskenta II  (Helsingin yliopisto) kurssin
-# lopputyötehtävään ja ns. kauppamatkustajan ongelmaan.
+# Tehtävänä on laskea lyhin reitti joulupukille 10 maailman suurimman 
+# kaupungin läpi, lähtien Korvatunturilta. Ongelma perustuu Tieteellinen 
+# laskenta II (Helsingin yliopisto) kurssin lopputyötehtävään ja ns. 
+# kauppamatkustajan ongelmaan.
 #
-# HUOM! ohjelma ei lataa kaupunkidataa automaattisesti, vaan tiedosto tulee ladata itse:
-# https://www.maxmind.com/en/free-world-cities-database
+# HUOM! ohjelma ei lataa kaupunkidataa automaattisesti, vaan tiedosto 
+# tulee ladata itse: https://www.maxmind.com/en/free-world-cities-database
 #
 # Juhani Takkunen
 # juhani.takkunen@helsinki.fi
@@ -17,10 +18,12 @@ from itertools import permutations
 ##### Määritellään luokat #####
 
 class Kaupunki:
-    # luokka määrittää kaupunkien perusominaisuudet: nimi, asukasmäärä sekä koordinaatit
+    # luokka määrittää kaupunkien perusominaisuudet: 
+    # nimi, asukasmäärä sekä koordinaatit
 
     def __init__(self, object):
-        # konstruktori-parametri on samaa muotoa, kuin worldcitiespop.txt - csv-tiedosto, eli:
+        # konstruktori-parametri on samaa muotoa, kuin worldcitiespop.txt 
+        # csv-tiedosto, eli:
         # Country,City,AccentCity,Region,Population,Latitude,Longitude
 		# lähde: (https://www.maxmind.com/en/free-world-cities-database)
         # - tiedot voidaan antaa string-muodossa
@@ -44,8 +47,9 @@ class Kaupunki:
 
 
     def etaisyysKaupunkiin(self, toinenKaupunki):
-        # Lasketaan etäisyys tämän ja jonkin toisen Kaupungin välillä. Tallennetaan laskettu
-        # etäisyys (etaisyydet),jotta niitä ei tarvitse myöhemmin laskea uudelleen.
+        # Lasketaan etäisyys tämän ja jonkin toisen Kaupungin välillä. 
+        # Tallennetaan laskettu etäisyys (etaisyydet),jotta niitä ei 
+        # tarvitse myöhemmin laskea uudelleen.
         # -> Palautetaan etäisyys kilometreinä
         if toinenKaupunki.nimi not in self.etaisyydet:
             self.etaisyydet[toinenKaupunki.nimi] = laskeEtaisyys(self, toinenKaupunki)
@@ -91,9 +95,9 @@ with open('worldcitiespop.txt', 'rt', encoding="latin1") as csvfile:
     kaupungit = [Kaupunki(rivi) for rivi in data]
     kaupungit.sort(key=lambda x: x.asukasmaara, reverse=True)
 
-# Määritetään, minkä kaupunkien läpi joulupukki kulkee - tässä tilanteessa valitsemme
-# nyt, että suurimpien kaupunkien. Koska tekniikka vaatii paljon laskentatehoa,
-# en suosittele yli 10 kaupungin laskemista.
+# Määritetään, minkä kaupunkien läpi joulupukki kulkee - tässä tilanteessa 
+# valitsemme, että suurimpien kaupunkien. Koska tekniikka vaatii paljon 
+# laskentatehoa, en suosittele yli 10 kaupungin laskemista.
 nKaupungit = 10
 suurimmatKaupungit = kaupungit[0:nKaupungit]
 print("suurimmat kaupungit ovat:")
@@ -101,9 +105,9 @@ for x in suurimmatKaupungit:
     print(x.nimi, x.asukasmaara)
 
 # Koska joulupukki asuu Korvatunturilla, lisätään se lähtöpisteeksi.
-# Muiden kaupunkien läpi käydään reitti kaikkien reittipermutaatioiden läpi ja etsitään,
-# mikä on lyhin reitti. Permutaatiot kuvaavat kaikkia erilaisia reittejä siten, että samassa
-# kaupungissa ei pysähdytä kahdesti.
+# Muiden kaupunkien läpi käydään reitti kaikkien reittipermutaatioiden 
+# läpi ja etsitään, mikä on lyhin reitti. Permutaatiot kuvaavat kaikkia 
+# erilaisia reittejä siten, että samassa kaupungissa ei pysähdytä kahdesti.
 print("*************************")
 print("== ALOITETAAN LASKENTA ==")
 print("*************************")
