@@ -41,7 +41,9 @@ class Kaupunki:
         # Koska Korvatunturia ei löydy csv-tiedostosta, luodaan tiedot käsin
         nimi = "Korvatunturi"
         asukasmaara = "10" # Joulupukki, Joulumuori ja pari tonttua
-        lat = "70.0833" # http://zip-code.en.mapawi.com/finland/16/k/1/10/korvatunturi/77777/3516/
+        # Koordinaatit ladattu sivulta:
+        # http://zip-code.en.mapawi.com/finland/16/k/1/10/korvatunturi/77777/3516/
+        lat = "70.0833" 
         lon = "27.85"
         return cls(["", "", nimi, "", asukasmaara, lat, lon])
 
@@ -59,8 +61,9 @@ class Kaupunki:
 
 def laskeEtaisyys(kaupunki1, kaupunki2):
     # laskee etäisyyden kahden kaupungin(olio) välille.
-    # Alkuperäinen ohje: http://stackoverflow.com/questions/365826/calculate-distance-between-2-gps-coordinates
-	# -> Palauttaa kahden kaupungin välisen etäisyyden [km]
+    # Alkuperäinen ohje: 
+    # http://stackoverflow.com/questions/365826/calculate-distance-between-2-gps-coordinates
+    # -> Palauttaa kahden kaupungin välisen etäisyyden [km]
     R = 6371 # maapallon säde [km]
     dLat = math.radians(kaupunki1.lat - kaupunki2.lat)
     dLon = math.radians(kaupunki1.lon - kaupunki2.lon)
