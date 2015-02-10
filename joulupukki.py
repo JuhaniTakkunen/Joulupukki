@@ -130,6 +130,6 @@ print("Pienin matka on:")
 print(pieninMatka)
 print("========================== \n")
 print("Reitti")
-print("Kaupunki, asukasluku, latitude, longitude")
+print("Kaupunki", "asukasluku", "latitude", "longitude", sep='\t')
 for i in pieninReitti:
-    print(i.nimi, i.asukasmaara, i.lat, i.lon)
+    print(i.nimi, i.asukasmaara, i.lat, i.lon, sep='\t')
