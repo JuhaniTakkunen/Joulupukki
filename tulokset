@@ -1,0 +1,34 @@
+suurimmat kaupungit ovat:
+Tokyo 31480498
+Shanghai 14608512
+Bombay 12692717
+Karachi 11627378
+Delhi 10928270
+New Delhi 10928270
+Manila 10443877
+Moscow 10381288
+Seoul 10323448
+São Paulo 10021437
+*************************
+== ALOITETAAN LASKENTA ==
+*************************
+==========================
+Pienin matka on:
+58630.75565644026
+========================== 
+
+Reitti
+Kaupunki	asukasluku	latitude	longitude
+Korvatunturi	10		70.0833		27.85
+São Paulo	10021437	-23.473293	-46.665803
+Seoul		10323448	37.5985		126.9783
+Moscow		10381288	55.752222	37.615556
+Manila		10443877	14.6042		120.9822
+New Delhi	10928270	28.6		77.2
+Delhi		10928270	28.666667	77.216667
+Karachi		11627378	24.9056		67.0822
+Bombay		12692717	18.975		72.825833
+Shanghai	14608512	31.045556	121.399722
+Tokyo		31480498	35.685		139.751389
+
+Process finished with exit code 0
