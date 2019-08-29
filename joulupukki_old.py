@@ -1,8 +1,7 @@
-import argparse
 import csv
 import math
 from itertools import permutations
-from tabulate import tabulate
+
 
 # joulupukki.py on harjoitustyö, jonka avulla opettelin Python 3:a.
 # Tehtävänä on laskea lyhin reitti joulupukille 10 maailman suurimman 
@@ -12,40 +11,47 @@ from tabulate import tabulate
 #
 # 2019-08-29: Päivitin koodia hieman, jotta pystyin käyttämään tätä vanhaa
 #             koodia Docker-testaukseen.
-from typing import Iterable
 
 
-class City:
+class Kaupunki:
 
-    def __init__(self, name, pop, lat, lon):
-        self.name: str = name
-        self.pop: int = pop
-        self.lat: float = lat
-        self.lon: float = lon
-        self._distances_to_other_cities = {}
+    def __init__(self, row):
+        # konstruktori-parametri on samaa muotoa, kuin worldcitiespop.txt 
+        # csv-tiedosto, eli:
+        # Country,City,AccentCity,Region,Population,Latitude,Longitude
+        # lähde: (https://www.maxmind.com/en/free-world-cities-database)
+        # - tiedot voidaan antaa string-muodossa
+        self.nimi = row[2]
+        try:
+            self.asukasmaara = int(row[4])
+        except ValueError:
+            self.asukasmaara = 0
+        self.lat = float(row[5])
+        self.lon = float(row[6])
+        self.etaisyydet = {}
 
     @classmethod
     def Korvatunturi(cls):
         # Koska Korvatunturia ei löydy csv-tiedostosta, luodaan tiedot käsin
         nimi = "Korvatunturi"
-        asukasmaara = 10  # Joulupukki, Joulumuori ja pari tonttua
-
+        asukasmaara = "10"  # Joulupukki, Joulumuori ja pari tonttua
+        # Koordinaatit ladattu sivulta:
         # http://zip-code.en.mapawi.com/finland/16/k/1/10/korvatunturi/77777/3516/
-        lat = 70.0833
-        lon = 27.85
-        return cls(nimi, asukasmaara, lat, lon)
+        lat = "70.0833"
+        lon = "27.85"
+        return cls(["", "", nimi, "", asukasmaara, lat, lon])
 
-    def distance_to_city(self, other_city):
+    def etaisyysKaupunkiin(self, toinenKaupunki):
         # Lasketaan etäisyys tämän ja jonkin toisen Kaupungin välillä. 
         # Tallennetaan laskettu etäisyys (etaisyydet),jotta niitä ei 
         # tarvitse myöhemmin laskea uudelleen.
         # -> Palautetaan etäisyys kilometreinä
-        if other_city.nimi not in self._distances_to_other_cities:
-            self._distances_to_other_cities[other_city.nimi] = calc_distance(self, other_city)
-        return self._distances_to_other_cities[other_city.nimi]
+        if toinenKaupunki.nimi not in self.etaisyydet:
+            self.etaisyydet[toinenKaupunki.nimi] = laskeEtaisyys(self, toinenKaupunki)
+        return self.etaisyydet[toinenKaupunki.nimi]
 
 
-def calc_distance(kaupunki1, kaupunki2):
+def laskeEtaisyys(kaupunki1, kaupunki2):
     # laskee etäisyyden kahden kaupungin(olio) välille.
     # Alkuperäinen ohje: 
     # http://stackoverflow.com/questions/365826/calculate-distance-between-2-gps-coordinates
@@ -65,46 +71,34 @@ def calc_distance(kaupunki1, kaupunki2):
     return etaisyys
 
 
-def calc_route(reitti):
+def laskeMatka(reitti):
     # Laskeen kaupunkien läpi kuljetun reitin annetussa järjestyksessä.
     # - reitin tulee olla taulukko/tuple, jonka alkioina on Kaupunkeja.
     # - palautetaan kokonaismatka [km]
     kokonaismatka = 0
     for i in range(len(reitti) - 1):
-        kokonaismatka += calc_distance(reitti[i], reitti[i + 1])
+        kokonaismatka += laskeEtaisyys(reitti[i], reitti[i + 1])
     return kokonaismatka
 
 
-def get_cities() -> Iterable[City]:
+def main():
     # Etsitään maapallon suurimpien kaupungin nimet ja koordinaatit ja järjestetään
     # suuruusjärjestykseen suurimmasta alkaen. Lähdetiedosto kopioitu sivulta:
-    # https://simplemaps.com/data/world-cities 29.8.2019
+    # https://www.maxmind.com/en/free-world-cities-database 3.2.2015
+    with open('worldcitiespop.txt', 'rt', encoding="latin1") as csvfile:
+        data = csv.reader(csvfile, delimiter=',')
+        next(data, None)  # skip the headers
+        kaupungit = [Kaupunki(rivi) for rivi in data]
+        kaupungit.sort(key=lambda x: x.asukasmaara, reverse=True)
 
-    cities = list()
-    with open('worldcities.csv', 'r', encoding="utf8") as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            new_city = City(
-                name=row["city"],
-                pop=int(row["population"].split(".")[0] or 0),
-                lat=float(row["lat"]),
-                lon=float(row["lng"]),
-            )
-            cities.append(new_city)
-
-    cities.sort(key=lambda x: x.pop, reverse=True)
-    return cities
-
-
-def main(n_cities):
     # Määritetään, minkä kaupunkien läpi joulupukki kulkee - tässä tilanteessa
     # valitsemme, että suurimpien kaupunkien. Koska tekniikka vaatii paljon
     # laskentatehoa, en suosittele yli 10 kaupungin laskemista.
-    kaupungit = get_cities()
-    top_largest_cities = kaupungit[0:n_cities]
-    print(f"suurimmat kaupungit ovat (n={n_cities}):")
-    for x in top_largest_cities:
-        print(x.name, x.pop)
+    nKaupungit = 10
+    suurimmatKaupungit = kaupungit[0:nKaupungit]
+    print("suurimmat kaupungit ovat:")
+    for x in suurimmatKaupungit:
+        print(x.nimi, x.asukasmaara)
 
     # Koska joulupukki asuu Korvatunturilla, lisätään se lähtöpisteeksi.
     # Muiden kaupunkien läpi käydään reitti kaikkien reittipermutaatioiden
@@ -114,31 +108,24 @@ def main(n_cities):
     print("== ALOITETAAN LASKENTA ==")
     print("*************************")
 
-    min_distance = None
-    min_route = None
-    korvatunturi = City.Korvatunturi()
+    korvatunturi = Kaupunki.Korvatunturi()
+    for reitti in permutations(suurimmatKaupungit):
+        matka = laskeMatka((korvatunturi,) + reitti)
+        pieninMatka = float("Inf")
+        if matka < pieninMatka:
+            pieninMatka = matka
+            pieninReitti = (korvatunturi,) + reitti
 
-    for reitti in permutations(top_largest_cities):
-        matka = calc_route((korvatunturi,) + reitti)
-        min_distance = float("Inf")
-        if matka < min_distance:
-            min_distance = matka
-            min_route = (korvatunturi,) + reitti
-
+    # Tulostetaan saadut tulokset näytölle
     print("==========================")
     print("Pienin matka on:")
-    print(min_distance)
+    print(pieninMatka)
     print("========================== \n")
     print("Reitti")
-
-    headers = {"name": "Kaupunki", "pop": "asukasluku", "lat": "latitude", "lon": "longitude"}
-    printable_res = [x.__dict__ for x in min_route]
-    print(tabulate(printable_res, headers=headers, tablefmt="rst"))
+    print("Kaupunki", "asukasluku", "latitude", "longitude", sep='\t')
+    for i in pieninReitti:
+        print(i.nimi, i.asukasmaara, i.lat, i.lon, sep='\t')
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--cities", dest="cities", type=int, default=8,
-                        help='max cities (tip: 10 is plenty), default=8')
-    args = parser.parse_args()
-    main(n_cities=args.cities)
+    main()
