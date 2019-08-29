@@ -1,34 +1,31 @@
-suurimmat kaupungit ovat:
-Tokyo 31480498
-Shanghai 14608512
-Bombay 12692717
-Karachi 11627378
-Delhi 10928270
-New Delhi 10928270
-Manila 10443877
-Moscow 10381288
-Seoul 10323448
-São Paulo 10021437
+suurimmat kaupungit ovat (n=8):
+Tokyo 35676000
+New York 19354922
+Mexico City 19028000
+Mumbai 18978000
+São Paulo 18845000
+Delhi 15926000
+Shanghai 14987000
+Kolkata 14787000
 *************************
 == ALOITETAAN LASKENTA ==
 *************************
 ==========================
 Pienin matka on:
-58630.75565644026
-========================== 
+72277.81254387468
+==========================
 
 Reitti
-Kaupunki	asukasluku	latitude	longitude
-Korvatunturi	10		70.0833		27.85
-São Paulo	10021437	-23.473293	-46.665803
-Seoul		10323448	37.5985		126.9783
-Moscow		10381288	55.752222	37.615556
-Manila		10443877	14.6042		120.9822
-New Delhi	10928270	28.6		77.2
-Delhi		10928270	28.666667	77.216667
-Karachi		11627378	24.9056		67.0822
-Bombay		12692717	18.975		72.825833
-Shanghai	14608512	31.045556	121.399722
-Tokyo		31480498	35.685		139.751389
-
-Process finished with exit code 0
+============  ============  ==========  ===========  ============================
+Kaupunki        asukasluku    latitude    longitude  _distances_to_other_cities
+============  ============  ==========  ===========  ============================
+Korvatunturi            10     70.0833      27.85    {}
+Kolkata           14787000     22.495       88.3247  {}
+Shanghai          14987000     31.2165     121.436   {}
+Delhi             15926000     28.67        77.23    {}
+São Paulo         18845000    -23.5587     -46.625   {}
+Mumbai            18978000     19.017       72.857   {}
+Mexico City       19028000     19.4424     -99.131   {}
+New York          19354922     40.6943     -73.9249  {}
+Tokyo             35676000     35.685      139.751   {}
+============  ============  ==========  ===========  ============================
