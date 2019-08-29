@@ -18,3 +18,9 @@ Koodin voi suorittaa seuraavalla käskyllä (cities-argumentti valinnainen, olet
 python joulupukki.py --cities 5
 ```
 HUOM! Yli 10 kaupungin ajo luultavasti päättyy huonosti.
+
+## DOCKER
+Koodin voi ajaa myös dockerissa: https://cloud.docker.com/repository/registry-1.docker.io/juhanitakkunen/mooc-docker-joulupukki
+```
+docker run juhanitakkunen/mooc-docker-joulupukki
+```
