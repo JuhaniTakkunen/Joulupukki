@@ -2,17 +2,17 @@ import argparse
 import csv
 import math
 from itertools import permutations
-from tabulate import tabulate
-
 # joulupukki.py on harjoitustyö, jonka avulla opettelin Python 3:a.
-# Tehtävänä on laskea lyhin reitti joulupukille 10 maailman suurimman 
-# kaupungin läpi, lähtien Korvatunturilta. Ongelma perustuu Tieteellinen 
-# laskenta II (Helsingin yliopisto) kurssin lopputyötehtävään ja ns. 
+# Tehtävänä on laskea lyhin reitti joulupukille 10 maailman suurimman
+# kaupungin läpi, lähtien Korvatunturilta. Ongelma perustuu Tieteellinen
+# laskenta II (Helsingin yliopisto) kurssin lopputyötehtävään ja ns.
 # kauppamatkustajan ongelmaan.
 #
 # 2019-08-29: Päivitin koodia hieman, jotta pystyin käyttämään tätä vanhaa
 #             koodia Docker-testaukseen.
 from typing import Iterable
+
+from tabulate import tabulate
 
 
 class City:
